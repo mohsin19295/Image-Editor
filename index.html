@@ -5,8 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Editor</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="main-contiainer">
+        <h2>Image Editor</h2>
+        <div class="wrapper">
+            <div class="pannel-section">
+                <div class="filter">
+                    <label class="title">Filters</label>
+                    <div class="buttons">
+                        <button>Brightness</button>
+                        <button>Saturation</button>
+                        <button>Inversion</button>
+                        <button>Grayscale</button>
+                    </div>
+                </div>
+                <div class="slider">
+                    <div class="info">
+                        <p class="name">Brightness</p>
+                        <p class="value">100%</p>
+                    </div>
+                    <input type="range" value="100" min="0" max="200">
+                </div>
+                <div class="rotate">
+                      <label class="title">Rotate & Flip</label>
+                    <div class="buttons">
+                        <button><box-icon name='rotate-left' ></box-icon></button>
+                        <button><box-icon name='rotate-right' ></box-icon></button>
+                        <button><box-icon name='reflect-horizontal'></box-icon></button>
+                        <button><box-icon name='reflect-vertical' ></box-icon></button>
+                    </div>
+                </div>
+            </div>
+            <div class="img-div">
+                <img src="https://via.placeholder.com/300x200" alt="">
+            </div>
+        </div>
+        <div class="controls">
+            <button class="reset-filters">Reset Filters</button>
+            <div class="row">
+                <button class="choose-img">Choose Image</button>
+                <button class="save-img">Save Image</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+ <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
