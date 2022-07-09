@@ -7,7 +7,8 @@
 }
 
 body {
-    background-color: #ebedf5;
+    background-color: #f2f4fa;
+    /* background-color: #ebedf5; */
     font-family: 'Roboto', sans-serif;
     padding: 2rem;
 }
@@ -18,8 +19,12 @@ body {
     margin: auto;
     max-width: 768px;
     background-color: #fff;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
     overflow: hidden;
+}
+
+.main-container:hover{
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .main-container.disable :where(.pannel-section, .display-img, .reset-filters, .save-img) {
@@ -35,7 +40,7 @@ h2 {
 
 p {
     margin-bottom: 0.5em;
-    color: #313233;
+    color: #003;
     font-weight: 500;
     font-size: 1.1rem;
 }
@@ -44,19 +49,16 @@ button {
     padding: 0.7em;
     outline: none;
     border-radius: 5px;
-    background-color: #ebedf5;
+    background-color: #f2f4fa;
     font-weight: 600;
+    cursor: pointer;
     border: 1px solid #0003;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
 button:hover {
-    background-color: #9090f8;
-    transition: 1s ease;
-}
-
-.reset-filters:hover {
-    background-color: #3a3a3a;
-    color: #fff;
+    background-color: #9f9ffd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     transition: 1s ease;
 }
 
@@ -115,12 +117,18 @@ button:hover {
     margin-top: 1rem;
 }
 
-.controls .row .choose-img {
+.reset-filters:hover {
+    background-color: #3a3a3a;
+    color: #fff;
+    transition: 1s ease;
+}
+
+.controls .choose-img {
     color: #fff;
     background-color: #3a3a3a;
 }
 
-.controls .row .save-img {
+.controls .save-img {
     color: #fff;
     background-color: #3036dd;
 }

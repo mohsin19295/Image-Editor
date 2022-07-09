@@ -9,19 +9,20 @@ const resetFilterButton = document.querySelector(".reset-filters");
 const inputRange = document.querySelector(".slider input");
 const inputValue = document.querySelector(".slider .value");
 
-let [brightness, saturation, inversion, grayscale, hueRotate, blur] = [100, 100, 0, 0, 0, 0];
+let [brightness, saturation, inversion, grayscale, blur,  hueRotate] = [100, 100, 0, 0, 0, 0];
 let [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
 
 const applyFilter = () => {
   displayImg.style.transform = `rotate(${rotate}deg) scale(${horizontalFlip}, ${verticalFlip})`;
 
-  displayImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) blur(${blur}px)`;
+  displayImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hueRotate}deg)`;
 
-  }
-
+}
+  
+let file; // Initializing global to get the same file name while downloading
 const uploadImg = () => {
   resetFilters() // Reset filters while uploading new file
-  let file = fileUpload.files[0]; // Get selected file
+   file = fileUpload.files[0]; // Get selected file
   if (!file) return; // Return if the file has not selected (if canceled)
   displayImg.src = URL.createObjectURL(file); // Passing file url as display img src
   displayImg.addEventListener("load", () => { // Removing desable class, after selecting an image
@@ -52,7 +53,7 @@ filterButtons.forEach((select => {
     } else if (select.id === "blur") {
       inputRange.max = "50";
       inputRange.value = blur;
-      inputValue.innerHTML = `${blur}%`;
+      inputValue.innerHTML = `${blur}px`;
     } else if (select.id === "inversion") {
       inputRange.max = "100";
       inputRange.value = inversion;
@@ -107,9 +108,8 @@ rotateButtons.forEach((select) => {
 
 // Resetting filters
 const resetFilters = () => {
-  [brightness, saturation, inversion, grayscale, hueRotate, blur] = [
-    100, 100, 0, 0, 0, 0,
-  ];
+  [brightness, saturation, inversion, grayscale, blur, hueRotate] = [
+    100, 100, 0, 0, 0, 0];
   [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
   filterButtons[0].click() // select brightness by default
   applyFilter()
@@ -121,7 +121,7 @@ const saveImg = () => {
   canvas.width = displayImg.naturalWidth
   canvas.height = displayImg.naturalHeight
 
-  ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) blur(${blur}px)`;
+  ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hueRotate}deg)`;
 
   ctx.translate(canvas.width / 2, canvas.height / 2); // Translate canvas from center
   ctx.scale(horizontalFlip, verticalFlip);  // Flip canvas
@@ -138,7 +138,7 @@ const saveImg = () => {
 
   // For download the image
   const downloadLink = document.createElement('a');
-  downloadLink.download = 'image.jpg'
+  downloadLink.download = `${file.name.slice(0, -4)}.jpg`;
   downloadLink.href = canvas.toDataURL();
   downloadLink.click()
 }
