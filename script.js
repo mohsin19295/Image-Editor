@@ -9,13 +9,13 @@ const resetFilterButton = document.querySelector(".reset-filters");
 const inputRange = document.querySelector(".slider input");
 const inputValue = document.querySelector(".slider .value");
 
-let [brightness, saturation, inversion, grayscale, blur] = [100, 100, 0, 0, 0];
+let [brightness, saturation, inversion, grayscale, hueRotate, blur] = [100, 100, 0, 0, 0, 0];
 let [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
 
 const applyFilter = () => {
   displayImg.style.transform = `rotate(${rotate}deg) scale(${horizontalFlip}, ${verticalFlip})`;
 
-  displayImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) blur(${blur}px)`;
+  displayImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) blur(${blur}px)`;
 
   }
 
@@ -45,6 +45,10 @@ filterButtons.forEach((select => {
       inputRange.max = "200";
       inputRange.value = saturation;
       inputValue.innerHTML = `${saturation}%`;
+    } else if (select.id === "hueRotate") {
+      inputRange.max = "360";
+      inputRange.value = hueRotate;
+      inputValue.innerHTML = `${hueRotate}deg`;
     } else if (select.id === "blur") {
       inputRange.max = "50";
       inputRange.value = blur;
@@ -70,12 +74,14 @@ const displayAndUpdateFilter = () => {
     brightness = inputRange.value;
   } else if (filterId === "saturation") {
     saturation = inputRange.value;
-  } else if (filterId === "blur") {
-    blur = inputRange.value;
   } else if (filterId === "inversion") {
     inversion = inputRange.value;
-  } else {
+  } else if (filterId === "grayscale") {
     grayscale = inputRange.value;
+  } else if (filterId === "hueRotate") {
+    hueRotate = inputRange.value;
+  } else {
+    blur = inputRange.value;
   }
   applyFilter()
 }
@@ -101,7 +107,9 @@ rotateButtons.forEach((select) => {
 
 // Resetting filters
 const resetFilters = () => {
-  [brightness, saturation, inversion, grayscale, blur] = [100, 100, 0, 0, 0];
+  [brightness, saturation, inversion, grayscale, hueRotate, blur] = [
+    100, 100, 0, 0, 0, 0,
+  ];
   [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
   filterButtons[0].click() // select brightness by default
   applyFilter()
@@ -113,7 +121,7 @@ const saveImg = () => {
   canvas.width = displayImg.naturalWidth
   canvas.height = displayImg.naturalHeight
 
-  canvasContext.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) blur(${blur}px)`;
+  canvasContext.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) blur(${blur}px)`;
 
   canvasContext.translate(canvas.width / 2, canvas.height / 2); // Translate canvas from center
   canvasContext.scale(horizontalFlip, verticalFlip);  // Flip canvas
