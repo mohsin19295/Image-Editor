@@ -8,6 +8,10 @@ const inputValue = document.querySelector(".slider .value");
 
 let [brightness, saturation, inversion, grayscale] = [100, 100, 0, 0]
 
+const applyFilter = () => {
+  displayImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+}
+
 const uploadImg = () => {
   let file = fileUpload.files[0]; // Get selected file
   if (!file) return; // Return if the file has not selected (if canceled)
@@ -24,33 +28,30 @@ filterButtons.forEach((select => {
       select.classList.add("active");
       document.querySelector(".slider .name").innerHTML = select.innerHTML; // Passing filter name
 
-      // Set indivisual selected filter value
-         if (select.id === "brightness") {
-           inputRange.max = "200";
-           inputRange.value = brightness;
-           inputValue.innerHTML = `${brightness}%`;
-         } else if (select.id === "saturation") {
-           inputRange.max = "200";
-           inputRange.value = saturation;
-           inputValue.innerHTML = `${saturation}%`;
-         } else if (select.id === "inversion") {
-           inputRange.max = "100";
-           inputRange.value = inversion;
-           inputValue.innerHTML = `${inversion}%`;
-         } else {
-           inputRange.max = "100";
-           inputRange.value = grayscale;
-           inputValue.innerHTML = `${grayscale}%`;
-         }
-    })
+    // Set indivisual selected filter value
+        if (select.id === "brightness") {
+          inputRange.max = "200";
+          inputRange.value = brightness;
+          inputValue.innerHTML = `${brightness}%`;
+        } else if (select.id === "saturation") {
+          inputRange.max = "200";
+          inputRange.value = saturation;
+          inputValue.innerHTML = `${saturation}%`;
+        } else if (select.id === "inversion") {
+          inputRange.max = "100";
+          inputRange.value = inversion;
+          inputValue.innerHTML = `${inversion}%`;
+        } else {
+          inputRange.max = "100";
+          inputRange.value = grayscale;
+          inputValue.innerHTML = `${grayscale}%`;
+        }
+  })
 }))
 
-const displayRangeValue = () => {
+const displayAndUpdateFilter = () => {
   inputValue.innerHTML = `${inputRange.value}%`; // Passing inputRage
-
-  // Set selected filter range
-    let filterId = document.querySelector(".filter .active").id;
-    console.log(inputRange.value);
+  let filterId = document.querySelector(".filter .active").id; // Get selected filter
 
   if (filterId === "brightness") {
     brightness = inputRange.value;
@@ -60,10 +61,11 @@ const displayRangeValue = () => {
     inversion = inputRange.value;
   } else {
     grayscale = inputRange.value;
-  }
+    }
+    applyFilter()
 }
 
-inputRange.addEventListener('input', displayRangeValue)
+inputRange.addEventListener('input', displayAndUpdateFilter)
 fileUpload.addEventListener("change", uploadImg)
 
 chooseImg.addEventListener('click', function () {
