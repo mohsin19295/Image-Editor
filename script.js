@@ -3,12 +3,16 @@ const chooseImg = document.querySelector(".choose-img");
 const displayImg = document.querySelector(".display-img img");
 const mainContainer = document.querySelector(".main-container");
 const filterButtons = document.querySelectorAll(".filter button");
+const rotateButtons = document.querySelectorAll(".rotate button");
+const resetFilterButton = document.querySelector(".reset-filters");
 const inputRange = document.querySelector(".slider input");
 const inputValue = document.querySelector(".slider .value");
 
-let [brightness, saturation, inversion, grayscale] = [100, 100, 0, 0]
+let [brightness, saturation, inversion, grayscale] = [100, 100, 0, 0];
+let [rotate, horizontalFlip, verticalFlip] =[0, 1, 1]
 
 const applyFilter = () => {
+  displayImg.style.transform = `rotate(${rotate}deg) scale(${horizontalFlip}, ${verticalFlip})`;
   displayImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
 }
 
@@ -21,7 +25,7 @@ const uploadImg = () => {
   });
 }
 
-// Managing .active class on filter options
+// Managing.active class on filter options
 filterButtons.forEach((select => {
     select.addEventListener("click", function () {
       document.querySelector(".filter .active").classList.remove("active");
@@ -49,6 +53,7 @@ filterButtons.forEach((select => {
   })
 }))
 
+// Updating filters
 const displayAndUpdateFilter = () => {
   inputValue.innerHTML = `${inputRange.value}%`; // Passing inputRage
   let filterId = document.querySelector(".filter .active").id; // Get selected filter
@@ -65,6 +70,38 @@ const displayAndUpdateFilter = () => {
     applyFilter()
 }
 
+// Managing.rotion and flip on rotate options
+rotateButtons.forEach((select) => {
+  select.addEventListener('click', () => {
+    if (select.id === 'left') {
+      rotate -= 90;
+    }
+    else if (select.id === 'right') {
+      rotate += 90;
+    }
+    else if (select.id === 'horizontal') {
+      horizontalFlip = horizontalFlip == 1 ? -1 : 1
+    }
+    else {
+      verticalFlip = verticalFlip == 1 ? -1 : 1
+    }
+    applyFilter()
+  })
+})
+
+// Resetting filters
+const resetFilters = () => {
+  [brightness, saturation, inversion, grayscale] = [100, 100, 0, 0];
+
+  [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
+
+  filterButtons[0].click() // select brightness by default
+
+  applyFilter()
+}
+
+
+resetFilterButton.addEventListener('click', resetFilters)
 inputRange.addEventListener('input', displayAndUpdateFilter)
 fileUpload.addEventListener("change", uploadImg)
 
