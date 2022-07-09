@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-contiainer">
+    <div class="main-container ">
         <h2>Image Editor</h2>
         <div class="wrapper">
             <div class="pannel-section">
@@ -38,13 +38,14 @@
                     </div>
                 </div>
             </div>
-            <div class="img-div">
+            <div class="display-img">
                 <img src="https://i.postimg.cc/L6Crw8NP/pillow3.png" alt="">
             </div>
         </div>
         <div class="controls">
             <button class="reset-filters">Reset Filters</button>
             <div class="row">
+                <input type="file" class="file-upload" accept="image/*" hidden>
                 <button class="choose-img">Choose Image</button>
                 <button class="save-img">Save Image</button>
             </div>
@@ -53,3 +54,4 @@
 </body>
 </html>
  <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
+ <script src="./script.js"></script>
