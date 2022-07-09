@@ -1,5 +1,6 @@
 const fileUpload = document.querySelector(".file-upload");
 const chooseImg = document.querySelector(".choose-img");
+const saveImgBtn = document.querySelector(".save-img");
 const displayImg = document.querySelector(".display-img img");
 const mainContainer = document.querySelector(".main-container");
 const filterButtons = document.querySelectorAll(".filter button");
@@ -9,7 +10,7 @@ const inputRange = document.querySelector(".slider input");
 const inputValue = document.querySelector(".slider .value");
 
 let [brightness, saturation, inversion, grayscale] = [100, 100, 0, 0];
-let [rotate, horizontalFlip, verticalFlip] =[0, 1, 1]
+let [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
 
 const applyFilter = () => {
   displayImg.style.transform = `rotate(${rotate}deg) scale(${horizontalFlip}, ${verticalFlip})`;
@@ -17,6 +18,7 @@ const applyFilter = () => {
 }
 
 const uploadImg = () => {
+  resetFilters() // Reset filters while uploading new file
   let file = fileUpload.files[0]; // Get selected file
   if (!file) return; // Return if the file has not selected (if canceled)
   displayImg.src = URL.createObjectURL(file); // Passing file url as display img src
@@ -27,29 +29,29 @@ const uploadImg = () => {
 
 // Managing.active class on filter options
 filterButtons.forEach((select => {
-    select.addEventListener("click", function () {
-      document.querySelector(".filter .active").classList.remove("active");
-      select.classList.add("active");
-      document.querySelector(".slider .name").innerHTML = select.innerHTML; // Passing filter name
+  select.addEventListener("click", function () {
+    document.querySelector(".filter .active").classList.remove("active");
+    select.classList.add("active");
+    document.querySelector(".slider .name").innerHTML = select.innerHTML; // Passing filter name
 
     // Set indivisual selected filter value
-        if (select.id === "brightness") {
-          inputRange.max = "200";
-          inputRange.value = brightness;
-          inputValue.innerHTML = `${brightness}%`;
-        } else if (select.id === "saturation") {
-          inputRange.max = "200";
-          inputRange.value = saturation;
-          inputValue.innerHTML = `${saturation}%`;
-        } else if (select.id === "inversion") {
-          inputRange.max = "100";
-          inputRange.value = inversion;
-          inputValue.innerHTML = `${inversion}%`;
-        } else {
-          inputRange.max = "100";
-          inputRange.value = grayscale;
-          inputValue.innerHTML = `${grayscale}%`;
-        }
+    if (select.id === "brightness") {
+      inputRange.max = "200";
+      inputRange.value = brightness;
+      inputValue.innerHTML = `${brightness}%`;
+    } else if (select.id === "saturation") {
+      inputRange.max = "200";
+      inputRange.value = saturation;
+      inputValue.innerHTML = `${saturation}%`;
+    } else if (select.id === "inversion") {
+      inputRange.max = "100";
+      inputRange.value = inversion;
+      inputValue.innerHTML = `${inversion}%`;
+    } else {
+      inputRange.max = "100";
+      inputRange.value = grayscale;
+      inputValue.innerHTML = `${grayscale}%`;
+    }
   })
 }))
 
@@ -66,8 +68,8 @@ const displayAndUpdateFilter = () => {
     inversion = inputRange.value;
   } else {
     grayscale = inputRange.value;
-    }
-    applyFilter()
+  }
+  applyFilter()
 }
 
 // Managing.rotion and flip on rotate options
@@ -92,19 +94,46 @@ rotateButtons.forEach((select) => {
 // Resetting filters
 const resetFilters = () => {
   [brightness, saturation, inversion, grayscale] = [100, 100, 0, 0];
-
   [rotate, horizontalFlip, verticalFlip] = [0, 1, 1]
-
   filterButtons[0].click() // select brightness by default
-
   applyFilter()
 }
 
+const saveImg = () => {
+  let canvas = document.createElement('canvas')
+  let canvasContext = canvas.getContext('2d')
+  canvas.width = displayImg.naturalWidth
+  canvas.height = displayImg.naturalHeight
+
+  canvasContext.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+
+  canvasContext.translate(canvas.width / 2, canvas.height / 2); // Translate canvas from center
+  canvasContext.scale(horizontalFlip, verticalFlip);  // Flip canvas
+
+  if (rotate !== 0) { //Rotate canvas, if the rotate value is not 0
+    canvasContext.rotate(rotate * Math.PI / 180);
+  }
+
+  canvasContext.drawImage(
+    displayImg,
+    -canvas.width / 2,
+    -canvas.height / 2,
+    canvas.width,
+    canvas.height
+  );
+
+  // For download the image
+  const downloadLink = document.createElement('a');
+  downloadLink.download = 'image.jpg'
+  downloadLink.href = canvas.toDataURL();
+  downloadLink.click()
+}
 
 resetFilterButton.addEventListener('click', resetFilters)
 inputRange.addEventListener('input', displayAndUpdateFilter)
 fileUpload.addEventListener("change", uploadImg)
+saveImgBtn.addEventListener("click", saveImg);
 
 chooseImg.addEventListener('click', function () {
-    return fileUpload.click();
+  return fileUpload.click();
 })
