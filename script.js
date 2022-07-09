@@ -24,14 +24,14 @@ const uploadImg = () => {
   let file = fileUpload.files[0]; // Get selected file
   if (!file) return; // Return if the file has not selected (if canceled)
   displayImg.src = URL.createObjectURL(file); // Passing file url as display img src
-  displayImg.addEventListener("load", function () { // Removing desable class, after selecting an image
+  displayImg.addEventListener("load", () => { // Removing desable class, after selecting an image
     mainContainer.classList.remove("disable");
   });
 }
 
 // Managing.active class on filter options
 filterButtons.forEach((select => {
-  select.addEventListener("click", function () {
+  select.addEventListener("click",  () => {
     document.querySelector(".filter .active").classList.remove("active");
     select.classList.add("active");
     document.querySelector(".slider .name").innerHTML = select.innerHTML; // Passing filter name
@@ -117,25 +117,23 @@ const resetFilters = () => {
 
 const saveImg = () => {
   let canvas = document.createElement('canvas')
-  let canvasContext = canvas.getContext('2d')
+  let ctx = canvas.getContext('2d')
   canvas.width = displayImg.naturalWidth
   canvas.height = displayImg.naturalHeight
 
-  canvasContext.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) blur(${blur}px)`;
+  ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) blur(${blur}px)`;
 
-  canvasContext.translate(canvas.width / 2, canvas.height / 2); // Translate canvas from center
-  canvasContext.scale(horizontalFlip, verticalFlip);  // Flip canvas
+  ctx.translate(canvas.width / 2, canvas.height / 2); // Translate canvas from center
+  ctx.scale(horizontalFlip, verticalFlip);  // Flip canvas
 
   if (rotate !== 0) { //Rotate canvas, if the rotate value is not 0
-    canvasContext.rotate(rotate * Math.PI / 180);
+    ctx.rotate(rotate * Math.PI / 180);
   }
-
-  canvasContext.drawImage(
+  
+  ctx.drawImage(
     displayImg,
     -canvas.width / 2,
-    -canvas.height / 2,
-    canvas.width,
-    canvas.height
+    -canvas.height / 2
   );
 
   // For download the image
@@ -149,7 +147,4 @@ resetFilterButton.addEventListener('click', resetFilters)
 inputRange.addEventListener('input', displayAndUpdateFilter)
 fileUpload.addEventListener("change", uploadImg)
 saveImgBtn.addEventListener("click", saveImg);
-
-chooseImg.addEventListener('click', function () {
-  return fileUpload.click();
-})
+chooseImg.addEventListener('click',  () => fileUpload.click())
