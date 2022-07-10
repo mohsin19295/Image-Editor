@@ -5,7 +5,8 @@
 - It has an attractive UI with <b>Neumorphism design</b>. 
 - It has <b>six filters</b> to apply to an image.
 - It also has the feature to <b>rotate / flip</b> the image.
-- A user can also <b>reset</b> all filters.
+- It allows to <b>increase or decrease</b> the values of the applied filters.
+- It also allows <b>resetting</b> all filters that have been applied.
 - Image will be saved with its <b>own dimensions</b>.
 - While <b>hovering or clicking</b> on any button, the user can feel its design.
 
