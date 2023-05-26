@@ -1,6 +1,7 @@
 # <p align="center">Image Editor</p>
 
-#### <p align="center">The project was built using `HTML`, `CSS`, and `javaScript`. It is fully responsive to any device. Features are mentioned below:<p/>
+#### <p align="center">The project was built using `HTML`, `CSS`, and `javaScript`. It is fully responsive to any device.<p/>
+#### <p align="center">Features are mentioned below:</p>
 
 - It has an attractive UI with <b>Neumorphism design</b>. 
 - It has <b>six filters</b> to apply to an image.
